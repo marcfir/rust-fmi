@@ -59,17 +59,16 @@ impl yaserde::YaDeserialize for Dimension {
             start_depth,
             named_element
         );
-        if reader.depth() == 0 {
-            if let Some(namespace) = struct_namespace {
-                match namespace.as_str() {
-                    bad_namespace => {
-                        let msg = format!(
-                            "bad namespace for {}, found {}",
-                            named_element, bad_namespace
-                        );
-                        return Err(msg);
-                    }
-                }
+        if reader.depth() == 0
+            && let Some(namespace) = struct_namespace
+        {
+            let bad_namespace = namespace.as_str();
+            {
+                let msg = format!(
+                    "bad namespace for {}, found {}",
+                    named_element, bad_namespace
+                );
+                return Err(msg);
             }
         }
         let mut __start_value = None;
@@ -114,13 +113,9 @@ impl yaserde::YaDeserialize for Dimension {
                     if depth == 0 && name.local_name == "Dimension" && namespace.as_str() == "" {
                         let _event = reader.next_event()?;
                     } else {
-                        match (namespace.as_str(), name.local_name.as_str()) {
-                            _ => {
-                                let _event = reader.next_event()?;
-                                if depth > 0 {
-                                    reader.skip_element(|_event| {})?;
-                                }
-                            }
+                        let _event = reader.next_event()?;
+                        if depth > 0 {
+                            reader.skip_element(|_event| {})?;
                         }
                     }
                     if depth == 0 {

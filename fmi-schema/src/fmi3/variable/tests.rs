@@ -1,3 +1,5 @@
+use std::f32::consts::PI;
+
 use super::*;
 
 #[test]
@@ -112,7 +114,7 @@ fn test_float32() {
     assert_eq!(var.name(), "float32_var");
     assert_eq!(var.value_reference(), 10);
     assert_eq!(var.causality(), Causality::Output);
-    assert_eq!(var.start(), Some([3.14].as_slice()));
+    assert_eq!(var.start(), Some([PI].as_slice()));
     assert_eq!(var.variability(), Variability::Continuous); // Default for float types
     assert_eq!(var.derivative(), None);
     assert_eq!(var.reinit(), None);

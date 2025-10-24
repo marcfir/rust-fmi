@@ -602,7 +602,7 @@ impl BinaryStart {
             .filter(|c| !c.is_ascii_whitespace() && *c != '_')
             .collect();
         assert!(
-            s.len() % 2 == 0,
+            s.len().is_multiple_of(2),
             "hex string must have an even number of digits"
         );
         (0..s.len())
