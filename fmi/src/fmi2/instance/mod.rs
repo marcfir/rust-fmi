@@ -15,12 +15,12 @@ mod traits;
 
 pub use traits::{CoSimulation, Common, ModelExchange};
 
-pub type InstanceME<'a> = Instance<'a, ME>;
-pub type InstanceCS<'a> = Instance<'a, CS>;
+pub type InstanceME = Instance<ME>;
+pub type InstanceCS = Instance<CS>;
 
 pub struct FmuState(usize);
 
-pub struct Instance<'a, Tag> {
+pub struct Instance<Tag> {
     /// Copy of the instance name
     name: String,
     /// Raw FMI 2.0 bindings
@@ -28,7 +28,7 @@ pub struct Instance<'a, Tag> {
     /// Pointer to the raw FMI 2.0 instance
     component: binding::fmi2Component,
     /// Model description
-    model_description: &'a schema::Fmi2ModelDescription,
+    model_description: schema::Fmi2ModelDescription,
     /// Callbacks struct
     #[allow(dead_code)]
     callbacks: Box<CallbackFunctions>,
@@ -37,7 +37,7 @@ pub struct Instance<'a, Tag> {
     _tag: std::marker::PhantomData<Tag>,
 }
 
-impl<'a, Tag> Drop for Instance<'a, Tag> {
+impl<Tag> Drop for Instance<Tag> {
     fn drop(&mut self) {
         log::trace!("Freeing component {:?}", self.component);
         unsafe {
@@ -49,7 +49,7 @@ impl<'a, Tag> Drop for Instance<'a, Tag> {
     }
 }
 
-impl<'a, Tag: InstanceTag> FmiInstance for Instance<'a, Tag> {
+impl<Tag: InstanceTag> FmiInstance for Instance<Tag> {
     type ModelDescription = schema::Fmi2ModelDescription;
     type ValueRef = <Fmi2Import as FmiImport>::ValueRef;
     type Status = Fmi2Status;
@@ -68,7 +68,7 @@ impl<'a, Tag: InstanceTag> FmiInstance for Instance<'a, Tag> {
     }
 
     fn model_description(&self) -> &Self::ModelDescription {
-        self.model_description
+        &self.model_description
     }
 
     fn set_debug_logging(
@@ -122,7 +122,7 @@ impl Default for CallbackFunctions {
     }
 }
 
-impl<'a, Tag: InstanceTag> Instance<'a, Tag> {
+impl<Tag: InstanceTag> Instance<Tag> {
     pub fn get_fmu_state(&mut self) -> Result<FmuState, Fmi2Error> {
         let mut state = std::ptr::null_mut();
         Fmi2Status(unsafe { self.binding.fmi2GetFMUstate(self.component, &mut state) }).ok()?;
@@ -210,7 +210,7 @@ impl<'a, Tag: InstanceTag> Instance<'a, Tag> {
     }
 }
 
-impl<'a, A> std::fmt::Debug for Instance<'a, A> {
+impl<A> std::fmt::Debug for Instance<A> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(
             f,

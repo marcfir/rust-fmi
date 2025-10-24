@@ -108,7 +108,7 @@ impl ReferenceFmus {
     /// // Load FMI 2.0 version
     /// let fmu: fmi::fmi2::import::Fmi2Import = reference_fmus.get_reference_fmu("BouncingBall")?;
     ///
-    /// // Load FMI 3.0 version  
+    /// // Load FMI 3.0 version
     /// let fmu: fmi::fmi3::import::Fmi3Import = reference_fmus.get_reference_fmu("BouncingBall")?;
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
@@ -176,10 +176,10 @@ impl ReferenceFmus {
             let name = file.name();
             if name.ends_with(".fmu") {
                 // Extract just the filename without path and extension
-                if let Some(filename) = name.rsplit('/').next() {
-                    if let Some(base_name) = filename.strip_suffix(".fmu") {
-                        fmus.push(base_name.to_string());
-                    }
+                if let Some(filename) = name.rsplit('/').next()
+                    && let Some(base_name) = filename.strip_suffix(".fmu")
+                {
+                    fmus.push(base_name.to_string());
                 }
             }
         }

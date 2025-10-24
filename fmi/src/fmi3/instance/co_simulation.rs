@@ -22,10 +22,10 @@ impl<'a> Instance<'a, CS> {
     ///   functions. The argument `instance_name` must be a non empty string (in other words, must
     ///   have at least one character that is not a white space). If only one FMU is simulated,
     ///   either the attribute [`crate::fmi3::schema::Fmi3ModelDescription::model_name`] or one of
+    ///   the following can be used as `instance_name`.
     ///     - [`crate::fmi3::schema::Fmi3ModelExchange::model_identifier`],
     ///     - [`crate::fmi3::schema::Fmi3CoSimulation::model_identifier`], or
     ///     - [`crate::fmi3::schema::Fmi3ScheduledExecution::model_identifier`]
-    ///   can be used as `instance_name`.
     ///
     /// * `visible`: Defines that the interaction with the user should be reduced to a minimum (no
     ///   application window, no plotting, no animation, etc.). In other words, the FMU is executed
@@ -78,7 +78,7 @@ impl<'a> Instance<'a, CS> {
             co_simulation.model_identifier()
         );
 
-        let binding = import.binding(&co_simulation.model_identifier())?;
+        let binding = import.binding(co_simulation.model_identifier())?;
 
         let instance_name = CString::new(instance_name).expect("Invalid instance name");
         let instantiation_token = CString::new(model_description.instantiation_token.as_bytes())

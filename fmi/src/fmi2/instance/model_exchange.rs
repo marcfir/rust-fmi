@@ -7,10 +7,10 @@ use crate::{
     traits::{FmiEventHandler, FmiImport, FmiModelExchange, FmiStatus},
 };
 
-impl<'a> Instance<'a, ME> {
+impl Instance<ME> {
     /// Initialize a new Instance from an Import
     pub fn new(
-        import: &'a import::Fmi2Import,
+        import: &import::Fmi2Import,
         instance_name: &str,
         visible: bool,
         logging_on: bool,
@@ -54,7 +54,7 @@ impl<'a> Instance<'a, ME> {
         Ok(Self {
             binding,
             component,
-            model_description: schema,
+            model_description: schema.clone(),
             callbacks,
             name,
             saved_states: Vec::new(),
@@ -63,7 +63,7 @@ impl<'a> Instance<'a, ME> {
     }
 }
 
-impl ModelExchange for Instance<'_, ME> {
+impl ModelExchange for Instance<ME> {
     fn enter_continuous_time_mode(&mut self) -> Result<Fmi2Res, Fmi2Error> {
         Fmi2Status::from(unsafe { self.binding.fmi2EnterContinuousTimeMode(self.component) }).ok()
     }
@@ -178,7 +178,7 @@ impl ModelExchange for Instance<'_, ME> {
     }
 }
 
-impl FmiModelExchange for Instance<'_, ME> {
+impl FmiModelExchange for Instance<ME> {
     fn enter_continuous_time_mode(&mut self) -> Result<Fmi2Res, Fmi2Error> {
         ModelExchange::enter_continuous_time_mode(self)
     }
@@ -251,7 +251,7 @@ impl FmiModelExchange for Instance<'_, ME> {
     }
 }
 
-impl FmiEventHandler for Instance<'_, ME> {
+impl FmiEventHandler for Instance<ME> {
     fn enter_event_mode(&mut self) -> Result<Fmi2Res, Fmi2Error> {
         ModelExchange::enter_event_mode(self)
     }
