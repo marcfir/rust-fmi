@@ -2,7 +2,7 @@ use yaserde_derive::{YaDeserialize, YaSerialize};
 
 use super::attribute_groups::{IntegerAttributes, RealAttributes};
 
-#[derive(Debug, PartialEq, YaSerialize, YaDeserialize)]
+#[derive(Debug, PartialEq, YaSerialize, YaDeserialize, Clone)]
 pub enum SimpleTypeElement {
     #[yaserde(flatten = true)]
     Real(RealAttributes),
@@ -22,7 +22,7 @@ impl Default for SimpleTypeElement {
     }
 }
 
-#[derive(Default, Debug, PartialEq, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, PartialEq, YaSerialize, YaDeserialize, Clone)]
 #[yaserde()]
 /// Type attributes of a scalar variable
 pub struct SimpleType {

@@ -136,7 +136,7 @@ impl ScalarVariableElement {
     }
 }
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct ScalarVariable {
     /// The full, unique name of the variable.
     #[yaserde(attribute = true)]

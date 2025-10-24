@@ -6,7 +6,7 @@ use super::{
     CoSimulation, Fmi2Unit, Fmi2VariableDependency, ModelExchange, ScalarVariable, SimpleType,
 };
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct Fmi2ModelDescription {
     /// Version of FMI (Clarification for FMI 2.0.2: for FMI 2.0.x revisions fmiVersion is defined
     /// as "2.0").
@@ -289,25 +289,25 @@ const fn default_tolerance() -> f64 {
     1e-3
 }
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct UnitDefinitions {
     #[yaserde(rename = "Unit")]
     pub units: Vec<Fmi2Unit>,
 }
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct TypeDefinitions {
     #[yaserde(rename = "SimpleType")]
     pub types: Vec<SimpleType>,
 }
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct ModelVariables {
     #[yaserde(rename = "ScalarVariable")]
     pub variables: Vec<ScalarVariable>,
 }
 
-#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize, Clone)]
 #[yaserde(rename = "ModelStructure")]
 pub struct ModelStructure {
     #[yaserde(rename = "Outputs")]
@@ -320,7 +320,7 @@ pub struct ModelStructure {
     pub initial_unknowns: UnknownList,
 }
 
-#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct UnknownList {
     #[yaserde(rename = "Unknown")]
     pub unknowns: Vec<Fmi2VariableDependency>,
@@ -358,7 +358,7 @@ mod tests {
     <InitialUnknowns />
 </ModelStructure>
 </fmiModelDescription>"##;
-        let md = Fmi2ModelDescription::deserialize(&s).unwrap();
+        let md = Fmi2ModelDescription::deserialize(s).unwrap();
         assert_eq!(md.fmi_version, "2.0");
         assert_eq!(md.model_name, "MyLibrary.SpringMassDamper");
         assert_eq!(md.guid, "{8c4e810f-3df3-4a00-8276-176fa3c9f9e0}");

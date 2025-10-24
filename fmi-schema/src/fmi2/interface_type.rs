@@ -2,7 +2,7 @@ use yaserde_derive::{YaDeserialize, YaSerialize};
 
 use crate::traits::FmiInterfaceType;
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 #[yaserde(tag = "File")]
 pub struct File {
     /// Name of the file including the path relative to the sources directory, using the forward
@@ -11,7 +11,7 @@ pub struct File {
     pub name: String,
 }
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 #[yaserde(tag = "SourceFiles")]
 pub struct SourceFiles {
     #[yaserde(rename = "File")]
@@ -20,7 +20,7 @@ pub struct SourceFiles {
 
 /// The FMU includes a model or the communication to a tool that provides a model. The environment
 /// provides the simulation engine for the model.
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct ModelExchange {
     /// Short class name according to C-syntax
     #[yaserde(attribute = true, rename = "modelIdentifier")]
@@ -58,7 +58,7 @@ pub struct ModelExchange {
     pub source_files: Option<SourceFiles>,
 }
 
-#[derive(Default, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct CoSimulation {
     /// Short class name according to C-syntax
     #[yaserde(attribute = true, rename = "modelIdentifier")]

@@ -2,7 +2,7 @@ use yaserde_derive::{YaDeserialize, YaSerialize};
 
 // use super::Annotations;
 
-#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize, Clone)]
 #[yaserde(rename = "Unit")]
 /// Unit definition (with respect to SI base units) and default display units
 pub struct Fmi2Unit {
@@ -17,7 +17,7 @@ pub struct Fmi2Unit {
     // pub annotations: Option<Annotations>,
 }
 
-#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct BaseUnit {
     #[yaserde(attribute = true, rename = "kg")]
     /// Exponent of SI base unit "kg"
@@ -43,7 +43,7 @@ pub struct BaseUnit {
     pub offset: Option<f64>,
 }
 
-#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct DisplayUnit {
     //#[yaserde(rename = "Annotations")]
     // pub annotations: Option<Annotations>,

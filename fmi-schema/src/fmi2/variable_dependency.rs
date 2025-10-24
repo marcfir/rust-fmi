@@ -3,7 +3,7 @@ use yaserde_derive::{YaDeserialize, YaSerialize};
 /// Dependency of scalar Unknown from Knowns in Continuous-Time and Event Mode (ModelExchange), and
 /// at Communication Points (CoSimulation): Unknown=f(Known_1, Known_2, ...).
 /// The Knowns are "inputs", "continuous states" and "independent variable" (usually time)".
-#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize, Clone)]
 pub struct Fmi2VariableDependency {
     /// ScalarVariable index of Unknown
     #[yaserde(attribute = true)]
@@ -35,7 +35,7 @@ pub struct Fmi2VariableDependency {
     pub dependencies_kind: Vec<DependenciesKind>,
 }
 
-#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize)]
+#[derive(Default, PartialEq, Debug, YaSerialize, YaDeserialize, Clone)]
 pub enum DependenciesKind {
     #[yaserde(rename = "dependent")]
     #[default]

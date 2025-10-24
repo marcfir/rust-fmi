@@ -1,6 +1,6 @@
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
-#[derive(Default, Debug, PartialEq, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, PartialEq, YaSerialize, YaDeserialize, Clone)]
 pub struct RealAttributes {
     #[yaserde(attribute = true)]
     pub quantity: Option<String>,
@@ -34,7 +34,7 @@ pub struct RealAttributes {
     pub unbounded: Option<bool>,
 }
 
-#[derive(Default, Debug, PartialEq, YaSerialize, YaDeserialize)]
+#[derive(Default, Debug, PartialEq, YaSerialize, YaDeserialize, Clone)]
 pub struct IntegerAttributes {
     pub quantity: Option<String>,
 
